@@ -34,6 +34,6 @@ except(KeyboardInterrupt, SystemExit):
     scheduler.shutdown()
 
 urlpatterns = [
-    url(r'^admins/', admin.site.urls),
+    url(r'^admin/', admin.site.urls),
     url(r'^api/',include('mybuy.urls'))
 ]
