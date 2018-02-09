@@ -827,7 +827,6 @@ def Query_buy_good_list(request):
                                         'price': _good.price, 'photo': _good.photo, 'quantity':j.quantity}
                                 goods.append(good)
 
-
                     lis = (100, goods)
 
                     json_str = json.dumps(lis)
@@ -849,6 +848,17 @@ def Query_buy_good_list(request):
         lis4 = (104, 300)
         json_str = json.dumps(lis4)
         return HttpResponse(json_str)
+
+# 设置代购列表中某人的待收款额
+def Set_total(buy_list_id):
+    _buy_list = Buy_list.objects.get(pk=buy_list_id)
+    _buy_list_good = Buy_good.objects.filter(buy_list=_buy_list)
+    sum = 0
+    for x in _buy_list_good:
+        su = x.quantity * x.price
+        sum = sum + su
+    _buy_list.total = sum
+    _buy_list.save()
 
 
 #修改采购数量
@@ -878,31 +888,15 @@ def Alter_quantity(request):
                         if _buy_good.count<=u:
                             _buy_good.quantity = _buy_good.count
                             _buy_good.save()
-
-                            # 设置代购列表中某人的待收款额
-                            _buy_list = Buy_list.objects.get(pk=_buy_good.buy_list_id)
-                            _buy_list_good = Buy_good.objects.filter(buy_list=_buy_list)
-                            sum = 0
-                            for x in _buy_list_good:
-                                su = x.quantity * x.price
-                                sum = sum + su
-                            _buy_list.total = sum
-                            _buy_list.save()
                             u = u - _buy_good.count
-
                         else:
                             _buy_good.quantity = u
                             _buy_good.save()
-                            # 设置代购列表中某人的待收款额
-                            _buy_list = Buy_list.objects.get(pk=_buy_good.buy_list_id)
-                            _buy_list_good = Buy_good.objects.filter(buy_list=_buy_list)
-                            sum = 0
-                            for x in _buy_list_good:
-                                su = x.quantity * x.price
-                                sum = sum + su
-                            _buy_list.total = sum
-                            _buy_list.save()
-                            break
+                            u = 0
+                for i in id_buy_good:
+                    _buy_good = Buy_good.objects.get(pk=i)
+                    Set_total(_buy_good.buy_list_id)
+
                 user = User.objects.get(id_wx=_id_wx)
                 user.get_list = True
                 user.save()
@@ -950,14 +944,7 @@ def Alter_buy_good(request):
 
                 #修改商品的待收款额
                 # 设置代购列表中某人的待收款额
-                _buy_list = Buy_list.objects.get(pk=_id_buy_list)
-                _buy_list_good = Buy_good.objects.filter(buy_list=_buy_list)
-                sum = 0
-                for x in _buy_list_good:
-                    su = x.quantity * x.price
-                    sum = sum + su
-                _buy_list.total = sum
-                _buy_list.save()
+                Set_total(_id_buy_list)
 
 
 
@@ -983,7 +970,6 @@ def Alter_buy_good(request):
 
 #修改客户邮价
 def Alter_postage(request):
-    print('接收到请求')
     try:
         if request.method == 'POST':
             _postage = float(request.POST.get('postage'))
@@ -1013,7 +999,6 @@ def Alter_postage(request):
 
 #修改一次代购成本
 def Alter_cost(request):
-    print('接收到请求')
     try:
         if request.method == 'POST':
             _cost = float(request.POST.get('cost'))
