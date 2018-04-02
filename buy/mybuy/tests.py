@@ -2,32 +2,41 @@ from django.test import TestCase
 
 from django.http import HttpResponse
 from django.core import serializers
-from mybuy.models import User,Buy_list,Buy,Buy_good,Good,Client,Developer,Rate
+from mybuy.models import User,Buy_list,Buy,Buy_good,Good,Client,Developer,Rate,Good_specification,Inform,Confirm_inform
 import requests
 import json
 
+from mybuy.views import Isset
 # Create your tests here.
 
 def Test(request):
-    pass
-    '''
-    print('收到请求')
+    print('Test')
     try:
         if request.method == 'GET':
-            code = request.GET.get('code')
-            print(code)
-            r = requests.get(
-                'https://api.weixin.qq.com/sns/jscode2session?appid=wx81714609760712b7&secret=2316ac3f1d412bcab1a67cc9174ab77b&js_code=' + code + '&grant_type=authorization_code')
-            print(r.text)
-            code = json.loads(r.text)
-            print(code)
-            print(type(r.text))
-            lis = (100, code)
-            json_str = json.dumps(lis)
-            return HttpResponse(json_str)
-
+            _id_wx = request.GET.get('id_wx')
+            _user = User.objects.get(id_wx=_id_wx)
+            _inform = Inform.objects.all().last()
+            if _user.confirm_inform_set.all().filter(inform=_inform):
+                print('3')
+                lis = (102, 300)
+                json_str = json.dumps(lis)
+                return HttpResponse(json_str)
+            else:
+                print('4', type(_inform), type(_user))
+                coninform = Confirm_inform(inform=_inform,user=_user)
+                print('5')
+                coninform.save()
+                da = {'content': _inform.content, 'id_inform': _inform.pk}
+                print('6', da)
+                lis = (100, da)
+                json_str = json.dumps(lis)
+                return HttpResponse(json_str)
         else:
-            return HttpResponse('103')
+            lis3 = (103, 300)
+            json_str = json.dumps(lis3)
+            return HttpResponse(json_str)
     except:
-        return HttpResponse('104')
-    '''
+        lis4 = (104, 300)
+        json_str = json.dumps(lis4)
+        return HttpResponse(json_str)
+

@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'buy.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'buy',
+        'NAME': 'daigou',
         'USER':'root',
         'PASSWORD':'test1234',
         'HOST':'127.0.0.1',
