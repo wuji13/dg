@@ -112,14 +112,13 @@ def Add_dglist(request):
                         buy_list = Buy_list(client=client, buy=_buy, client_name=client.name, client_phone=client.phone,
                                             client_site='')
                     buy_list.save()
-                    id_buy_list = buy_list.pk
 
                     user = User.objects.get(id_wx = _id_wx)
                     user.get_list = True
                     user.save()
-
-                    print(id_buy_list)
-                    lis = (100,id_buy_list)
+                    da = {'id_buylist':buy_list.pk,'clientid':buy_list.client_id, 'name':buy_list.client.name, 'phone':buy_list.client.phone,
+                                            'site':buy_list.client_site}
+                    lis = (100,da)
                     json_str = json.dumps(lis)
                     return HttpResponse(json_str)
 
