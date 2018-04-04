@@ -4,6 +4,7 @@ from mybuy.models import Rate
 import requests
 #获取汇率存在数据库
 def Save_rate():
+    print("save_rate")
     try:
         r = requests.get("https://api.fixer.io/latest?base=CNY&symbols=HKD,KRW,AUD,USD,JPY,GBP,CNY")
         print(r.text)
