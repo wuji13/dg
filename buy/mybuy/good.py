@@ -89,13 +89,13 @@ def add_good_specificati(good,datas,purchase_currency,nub):
     for i in sit:
         if j < n:
             specificati = Good_specification(good=good, purchase_currency=purchase_currency)
-            if datas.get('specificati'+i,False):
-                specificati.specificati=datas.get('specificati'+i)
+            if datas.get('spe'+i,False):
+                specificati.specificati=datas.get('spe'+i)
             if datas.get('price'+i,False):
                 specificati.price=datas.get('price'+i)
-            if datas.get('purchase_price'+i,False):
-                specificati.purchase_price = datas.get('purchase_price' + i)
-            if datas.get('specificati'+i,False) or datas.get('price'+i,False) or datas.get('purchase_price'+i,False):
+            if datas.get('purchasePrice'+i,False):
+                specificati.purchase_price = datas.get('purchasePrice' + i)
+            if datas.get('specificati'+i,False) or datas.get('price'+i,False) or datas.get('purchasePrice'+i,False):
                 specificati.save()
             j=j+1
         else:
@@ -115,14 +115,14 @@ def fix_good_specificati(good, datas, purchase_currency, nub):
     for i in sit:
         if j < n:
             specificati = Good_specification(good=good, purchase_currency=purchase_currency)
-            if datas.get('specificati' + i, False):
-                specificati.specificati = datas.get('specificati' + i)
+            if datas.get('spe' + i, False):
+                specificati.specificati = datas.get('spe' + i)
             if datas.get('price' + i, False):
                 specificati.price = datas.get('price' + i)
-            if datas.get('purchase_price' + i, False):
-                specificati.purchase_price = datas.get('purchase_price' + i)
-            if datas.get('specificati' + i, False) or datas.get('price' + i, False) or datas.get(
-                            'purchase_price' + i, False):
+            if datas.get('purchasePrice' + i, False):
+                specificati.purchase_price = datas.get('purchasePrice' + i)
+            if datas.get('spe' + i, False) or datas.get('price' + i, False) or datas.get(
+                            'purchasePrice' + i, False):
                 specificati.save()
             j = j + 1
         else:
@@ -146,6 +146,7 @@ def Add_good(request):
             _datas = request.POST.get('datas')
             _da = json.loads(_datas)
 
+            print('商品数据',_da)
             if Verify(_ciphertext, _time):
                 #修改_id有定义
                 if Isset(_id):
