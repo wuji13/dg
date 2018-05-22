@@ -13,6 +13,7 @@ urlpatterns = [
     url(r'^addgood',good.Add_good,name='addgood'),
     url(r'^deletegood',good.Delete_good,name='deletegood'),
     url(r'^querygood',views.Query_good,name='querygood'),
+    url(r'^selectgood',good.Select_good,name='selectgood'),
 
     url(r'^adddg',dgs.Add_dg,name='adddg'),
     url(r'^querydg',dgs.Query_dg,name='querydg'),
@@ -66,6 +67,7 @@ urlpatterns = [
     url(r'^qspecification', dgs.Query_good_specification, name='qspecification'),
 
     url(r'^getinform', clients.Get_inform, name='getinform'),
+    url(r'^alterremark', good.Alter_remark, name='alterremark'),
 
 
 ]

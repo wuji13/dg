@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core import serializers
-from mybuy.models import User,Buy_list,Buy,Buy_good,Good,Client,Developer,Rate,Client_site,Inform,Confirm_inform
+from mybuy.models import User,Buy_list,Buy,Buy_good,Good,Client,Developer,Rate,Client_site,Good_specification
 import datetime,time
 from datetime import timedelta
 import random
@@ -26,7 +26,7 @@ def Get_openid(request):
 
             if Verify(_ciphertext,_time):
                 r = requests.get(
-                    'https://api.weixin.qq.com/sns/jscode2session?appid=wx81714609760712b7&secret=2316ac3f1d412bcab1a67cc9174ab77b&js_code=' + code + '&grant_type=authorization_code')
+                    'https://api.weixin.qq.com/sns/jscode2session?appid=wx8e2f68ed92592476&secret=891afae4860dd6b0cc862df32e814d0b&js_code=' + code + '&grant_type=authorization_code')
                 code = json.loads(r.text)
                 lis = (100, code)
                 json_str = json.dumps(lis)
@@ -190,21 +190,28 @@ def Delete_client(request):
     print('Delete_client')
     try:
         if request.method == 'POST':
-            _id_wx = request.POST.get('id_wx')
+            _id = request.POST.get('id')
             _ciphertext = int(request.POST.get('ciphertext'))
             _time = int(request.POST.get('text'))
             _id = request.POST.get('id')
             if Verify(_ciphertext,_time):
-                b = User.objects.get(id_wx=_id_wx)
-                _client = b.client_set.get(pk=_id)
+                _client = Client.objects.get(pk=_id)
                 _client.delete()
-                return HttpResponse('100')
+                lis = (100, 300)
+                json_str = json.dumps(lis)
+                return HttpResponse(json_str)
             else:
-                return HttpResponse('101')
+                lis0 = (101, 300)
+                json_str0 = json.dumps(lis0)
+                return HttpResponse(json_str0)
         else:
-            return HttpResponse('103')
+            lis1 = (103, 300)
+            json_str1 = json.dumps(lis1)
+            return HttpResponse(json_str1)
     except:
-        return HttpResponse('104')
+        lis2 = (104, 300)
+        json_str2 = json.dumps(lis2)
+        return HttpResponse(json_str2)
 
 #查询客户get请求带id_wx
 
@@ -292,15 +299,23 @@ def DimQuery_client(request):
 
 #查询商品get请求带id_wx
 def Query_good(request):
+    print('Query_good')
     try:
         if request.method == 'GET':
             _id_wx = request.GET.get('id_wx')
             _ciphertext = int(request.GET.get('ciphertext'))
             _time = int(request.GET.get('text'))
+            arry = []
             if Verify(_ciphertext,_time):
                 b = User.objects.get(id_wx=_id_wx)
                 _goods = b.good_set.all()
-                data = serializers.serialize('json',_goods)
+                for i in _goods:
+                    good_spe = Good_specification.objects.filter(good = i)
+                    Dgood_spe = serializers.serialize('json', good_spe)
+                    bs = {'name':i.name,'photo':i.photo,'pk':i.pk,'spe':Dgood_spe}
+                    arry.append(bs)
+                data = json.dumps(arry)
+                print(data)
                 return HttpResponse(data)
             else:
                 return HttpResponse('101')
@@ -441,40 +456,46 @@ def Query_buy_good_list(request):
     print("Query_buy_good_list")
     try:
         if request.method == 'GET':
+            print('00000')
             _id_wx = request.GET.get('id_wx')
             _ciphertext = int(request.GET.get('ciphertext'))
             _time = int(request.GET.get('text'))
             sz = int(request.GET.get('datasnull'))  #判断是否为空，来查是否需要再次请求数据
+            print('11111',_id_wx,sz)
             if sz==0:
                 datasnull=False
             else:
                 datasnull=True
             if Verify(_ciphertext,_time):
                 user = User.objects.get(id_wx=_id_wx)
+                print('22222',user)
                 if user.get_list or datasnull:
+                    print('33333', user)
                     user.get_list = False
                     user.save()
+                    print('44444', user.get_list)
                     u = User.objects.get(id_wx=_id_wx)
+
                     # 找到最近添加的buy记录
                     _buy = u.buy_set.all().last()
                     # 找到关联buy记录的所有buy_list的记录
-
+                    print('44444', _buy)
                     # 找到关联buy记录的所有buy_list的记录
                     b_list = _buy.buy_list_set.all()
                     goods = []
-                    print('1',b_list)
+                    print('44444',b_list)
                     for i in b_list:
                         # 找到关联buy_list记录中每条记录中的的所有buy_good的记录
 
                         buy_good = i.buy_good_set.all()
-                        print('2',buy_good)
+                        print('55555',buy_good)
                         for j in buy_good:
-                            print('3')
+                            print('66666')
                             m = True
                             for x in goods:
-                                print('4444', type(x))
-                                print('4444', x)
-                                print('4444',x['good_id'])
+                                print('77777', type(x))
+                                print('88888', x)
+                                print('99999',x['good_id'])
                                 if j.good_id == x['good_id']:
                                     print('44446666')
                                     x['count_good'] = x['count_good'] + j.count
@@ -483,13 +504,12 @@ def Query_buy_good_list(request):
                                     x['id_buy_good'].append(j.pk)
                                     m = False
                                     break
-
                             if m:
                                 good = {'id_buy': _buy.id, 'id_buy_good': [j.pk], 'count_good': j.count,'good_id':j.good_id,
                                          'name': j.good_name, 'specificati': j.good_specification,
                                         'price': j.price, 'photo': j.good_photo, 'quantity':j.quantity}
                                 goods.append(good)
-                                print('5',good,goods)
+                                print('9090',good,goods)
                     lis = (100, goods)
                     json_str = json.dumps(lis)
                     return HttpResponse(json_str)
@@ -507,7 +527,7 @@ def Query_buy_good_list(request):
             json_str = json.dumps(lis3)
             return HttpResponse(json_str)
     except:
-
+        print('final')
         lis4 = (104, 300)
         json_str = json.dumps(lis4)
         return HttpResponse(json_str)

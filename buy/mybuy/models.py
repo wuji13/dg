@@ -102,7 +102,7 @@ class Buy_list(models.Model):
     gathering = models.FloatField(max_length=20, default=0)  # 已收款额
     total = models.FloatField(default=0)  #总待收款
     postage = models.FloatField(default=0) #邮费
-
+    remarks = models.CharField(max_length=1024,null=True,blank=True)
     def __str__(self):  # __unicode__ on Python 2
         return self.client.name
 

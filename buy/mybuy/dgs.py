@@ -12,7 +12,7 @@ from mybuy.views import Verify,Isset,BZ,Set_total
 
 from qiniu import Auth
 from qiniu import BucketManager
-from collections import Iterable
+
 
 #添加代购id_wx/name/
 def Add_dg(request):

@@ -22,7 +22,7 @@ def Add_category(request):
             _ciphertext = int(request.POST.get('ciphertext'))
             _time = int(request.POST.get('text'))
             if Verify(_ciphertext, _time):
-                if Category.objects.filter(name=_da['name']):
+                if Category.objects.filter(user=_user).filter(name=_da['name']):
                     return HttpResponse('102')
                 else:
                     client = Category(name=_da['name'],user=_user)
@@ -241,6 +241,27 @@ def Delete_good(request):
     except:
         return HttpResponse('104')
 
+def Select_good(request):
+    print('Select_good')
+    try:
+        if request.method == 'GET':
+            _id_wx = request.GET.get('id_wx')
+            _ciphertext = int(request.GET.get('ciphertext'))
+            _time = int(request.GET.get('text'))
+            if Verify(_ciphertext, _time):
+                b = User.objects.get(id_wx=_id_wx)
+                _goods = b.good_set.all()
+                data = serializers.serialize('json',_goods)
+                print(data)
+                return HttpResponse(data)
+            else:
+                return HttpResponse('101')
+        else:
+            return HttpResponse('103')
+    except:
+        return HttpResponse('104')
+
+
 #查询商品详情
 def Query_good_detail(request):
     print('Query_good_detail')
@@ -281,3 +302,30 @@ def Query_good_detail(request):
         json_str2 = json.dumps(lis2)
         return HttpResponse(json_str2)
 
+def Alter_remark(request):
+    print('Alter_remark')
+    try:
+        if request.method == 'POST':
+            _id_buy_list = request.POST.get('id_buy_list')
+            _ciphertext = int(request.POST.get('ciphertext'))
+            _time = int(request.POST.get('text'))
+            _remark = request.POST.get('remark')
+            if Verify(_ciphertext, _time):
+                buy_list = Buy_list.objects.get(pk=_id_buy_list)
+                buy_list.remarks = _remark
+                buy_list.save()
+                lis = (100,300)
+                json_str = json.dumps(lis)
+                return HttpResponse(json_str)
+            else:
+                lis0 = (101, 300)
+                json_str0 = json.dumps(lis0)
+                return HttpResponse(json_str0)
+        else:
+            lis1 = (103, 300)
+            json_str1 = json.dumps(lis1)
+            return HttpResponse(json_str1)
+    except:
+        lis2 = (104, 300)
+        json_str2 = json.dumps(lis2)
+        return HttpResponse(json_str2)
