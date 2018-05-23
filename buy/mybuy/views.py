@@ -170,7 +170,7 @@ def Add_client(request):
                     return HttpResponse('100')
                 #新增客户
                 else:
-                    if Client.objects.filter(name=_da['name']):
+                    if Client.objects.filter(user = _user).filter(name=_da['name']):
                         return HttpResponse('102')
                     else:
                         client = Client(name=_da['name'],phone=_da['phone'],user=_user)
@@ -456,60 +456,76 @@ def Query_buy_good_list(request):
     print("Query_buy_good_list")
     try:
         if request.method == 'GET':
-            print('00000')
             _id_wx = request.GET.get('id_wx')
             _ciphertext = int(request.GET.get('ciphertext'))
             _time = int(request.GET.get('text'))
             sz = int(request.GET.get('datasnull'))  #判断是否为空，来查是否需要再次请求数据
-            print('11111',_id_wx,sz)
             if sz==0:
                 datasnull=False
             else:
                 datasnull=True
             if Verify(_ciphertext,_time):
                 user = User.objects.get(id_wx=_id_wx)
-                print('22222',user)
+
                 if user.get_list or datasnull:
-                    print('33333', user)
-                    user.get_list = False
-                    user.save()
-                    print('44444', user.get_list)
+
+
                     u = User.objects.get(id_wx=_id_wx)
 
                     # 找到最近添加的buy记录
                     _buy = u.buy_set.all().last()
                     # 找到关联buy记录的所有buy_list的记录
-                    print('44444', _buy)
+
                     # 找到关联buy记录的所有buy_list的记录
                     b_list = _buy.buy_list_set.all()
                     goods = []
-                    print('44444',b_list)
+
                     for i in b_list:
                         # 找到关联buy_list记录中每条记录中的的所有buy_good的记录
 
                         buy_good = i.buy_good_set.all()
-                        print('55555',buy_good)
+
                         for j in buy_good:
-                            print('66666')
+
                             m = True
                             for x in goods:
-                                print('77777', type(x))
-                                print('88888', x)
-                                print('99999',x['good_id'])
-                                if j.good_id == x['good_id']:
-                                    print('44446666')
-                                    x['count_good'] = x['count_good'] + j.count
-                                    print('fasdf',j.count)
-                                    x['quantity'] = x['quantity'] + j.quantity
-                                    x['id_buy_good'].append(j.pk)
-                                    m = False
-                                    break
+                                if j.spe_id:
+
+                                    if j.spe_id == x['speid']:
+
+                                        x['count_good'] = x['count_good'] + j.count
+
+                                        x['quantity'] = x['quantity'] + j.quantity
+                                        x['id_buy_good'].append(j.pk)
+                                        m = False
+                                        break
+                                else:
+
+                                    if j.good_id == x['good_id']:
+                                        x['count_good'] = x['count_good'] + j.count
+
+                                        x['quantity'] = x['quantity'] + j.quantity
+                                        x['id_buy_good'].append(j.pk)
+                                        m = False
+                                        break
                             if m:
-                                good = {'id_buy': _buy.id, 'id_buy_good': [j.pk], 'count_good': j.count,'good_id':j.good_id,
-                                         'name': j.good_name, 'specificati': j.good_specification,
-                                        'price': j.price, 'photo': j.good_photo, 'quantity':j.quantity}
-                                goods.append(good)
-                                print('9090',good,goods)
+
+                                if j.spe:
+                                    good = {'id_buy': _buy.id, 'id_buy_good': [j.pk], 'count_good': j.count,
+                                            'good_id': j.good_id,
+                                            'name': j.good_name, 'specificati': j.good_specification,
+                                            'price': j.spe.price, 'photo': j.good_photo, 'quantity': j.quantity,
+                                            'speid': j.spe_id}
+                                    goods.append(good)
+
+                                else:
+                                    good = {'id_buy': _buy.id, 'id_buy_good': [j.pk], 'count_good': j.count,'good_id':j.good_id,
+                                             'name': j.good_name, 'specificati': j.good_specification,
+                                            'price':'0', 'photo': j.good_photo, 'quantity':j.quantity,'speid':j.spe_id}
+                                    goods.append(good)
+
+                    user.get_list = False
+                    user.save()
                     lis = (100, goods)
                     json_str = json.dumps(lis)
                     return HttpResponse(json_str)
