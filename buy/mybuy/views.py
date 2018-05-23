@@ -494,13 +494,11 @@ def Query_buy_good_list(request):
                                     if j.spe_id == x['speid']:
 
                                         x['count_good'] = x['count_good'] + j.count
-
                                         x['quantity'] = x['quantity'] + j.quantity
                                         x['id_buy_good'].append(j.pk)
                                         m = False
                                         break
                                 else:
-
                                     if j.good_id == x['good_id']:
                                         x['count_good'] = x['count_good'] + j.count
 

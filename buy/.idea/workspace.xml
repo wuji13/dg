@@ -33,11 +33,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mybuy/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="301">
-              <caret line="612" column="0" lean-forward="true" selection-start-line="612" selection-start-column="0" selection-end-line="612" selection-end-column="0" />
+            <state relative-caret-position="117">
+              <caret line="495" column="83" lean-forward="false" selection-start-line="495" selection-start-column="83" selection-end-line="495" selection-end-column="83" />
               <folding>
                 <element signature="e#24#59#0" expanded="true" />
                 <element signature="e#2951#3337#0" expanded="false" />
@@ -46,11 +46,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="dgs.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="dgs.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/mybuy/dgs.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-4505">
-              <caret line="224" column="51" lean-forward="true" selection-start-line="224" selection-start-column="51" selection-end-line="224" selection-end-column="51" />
+            <state relative-caret-position="261">
+              <caret line="219" column="84" lean-forward="false" selection-start-line="219" selection-start-column="84" selection-end-line="219" selection-end-column="84" />
               <folding>
                 <element signature="e#24#59#0" expanded="true" />
               </folding>
@@ -81,7 +81,7 @@
       <file leaf-file-name="good.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/mybuy/good.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="990">
+            <state relative-caret-position="333">
               <caret line="75" column="17" lean-forward="true" selection-start-line="75" selection-start-column="17" selection-end-line="75" selection-end-column="17" />
               <folding />
             </state>
@@ -176,16 +176,16 @@
         <option value="$PROJECT_DIR$/buy/settings.py" />
         <option value="$PROJECT_DIR$/mybuy/cron.py" />
         <option value="$PROJECT_DIR$/buy/urls.py" />
-        <option value="$PROJECT_DIR$/mybuy/dgs.py" />
         <option value="$PROJECT_DIR$/mybuy/models.py" />
         <option value="$PROJECT_DIR$/mybuy/urls.py" />
         <option value="$PROJECT_DIR$/mybuy/good.py" />
         <option value="$PROJECT_DIR$/mybuy/views.py" />
+        <option value="$PROJECT_DIR$/mybuy/dgs.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="96" />
+    <option name="x" value="490" />
     <option name="y" value="23" />
     <option name="width" value="1825" />
     <option name="height" value="961" />
@@ -322,7 +322,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="96" y="23" width="1825" height="961" extended-state="0" />
+    <frame x="490" y="23" width="1825" height="961" extended-state="0" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15872125" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
@@ -694,14 +694,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/mybuy/good.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="75" column="17" lean-forward="true" selection-start-line="75" selection-start-column="17" selection-end-line="75" selection-end-column="17" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mybuy/clients.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="99">
@@ -715,16 +707,6 @@
         <state relative-caret-position="610">
           <caret line="94" column="14" lean-forward="false" selection-start-line="94" selection-start-column="6" selection-end-line="94" selection-end-column="14" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/mybuy/dgs.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-4505">
-          <caret line="224" column="51" lean-forward="true" selection-start-line="224" selection-start-column="51" selection-end-line="224" selection-end-column="51" />
-          <folding>
-            <element signature="e#24#59#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -748,11 +730,29 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/mybuy/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="301">
-          <caret line="612" column="0" lean-forward="true" selection-start-line="612" selection-start-column="0" selection-end-line="612" selection-end-column="0" />
+        <state relative-caret-position="117">
+          <caret line="495" column="83" lean-forward="false" selection-start-line="495" selection-start-column="83" selection-end-line="495" selection-end-column="83" />
           <folding>
             <element signature="e#24#59#0" expanded="true" />
             <element signature="e#2951#3337#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mybuy/good.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="333">
+          <caret line="75" column="17" lean-forward="true" selection-start-line="75" selection-start-column="17" selection-end-line="75" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/mybuy/dgs.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="219" column="84" lean-forward="false" selection-start-line="219" selection-start-column="84" selection-end-line="219" selection-end-column="84" />
+          <folding>
+            <element signature="e#24#59#0" expanded="true" />
           </folding>
         </state>
       </provider>

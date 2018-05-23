@@ -213,7 +213,9 @@ def Add_dggood(request):
             if Verify(_ciphertext, _time):
                 _good = Good.objects.get(pk=_id_good)
                 _buy_list = Buy_list.objects.get(pk=_id_buy_list)
-                if _id_spe:
+
+                if _id_spe!='':
+                    print('spespe',_id_spe)
                     _spe = Good_specification.objects.get(pk=_id_spe)
                     if Buy_good.objects.filter(buy_list=_buy_list).filter(spe=_spe):
                         lis2 = (102, 300)
@@ -233,6 +235,7 @@ def Add_dggood(request):
                         json_str = json.dumps(lis)
                         return HttpResponse(json_str)
                 else:
+                    print('buygood', _id_spe)
                     if Buy_good.objects.filter(buy_list=_buy_list).filter(good=_good):
                         lis2 = (102, 300)
                         json_str = json.dumps(lis2)
