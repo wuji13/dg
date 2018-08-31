@@ -84,7 +84,7 @@ def Add_site(request):
         return HttpResponse(json_str)
 
 
-#系统通知
+#系统通知,xitong tongzhi 
 def Get_inform(request):
     print('Get_inform')
     try:
