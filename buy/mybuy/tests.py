@@ -11,6 +11,7 @@ from mybuy.views import Isset
 
 def Test(request):
     print('Test')
+    print('Test')
     try:
         if request.method == 'GET':
             _id_wx = request.GET.get('id_wx')
